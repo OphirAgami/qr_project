@@ -1,8 +1,9 @@
-import tkinter as tk
 from tkinter import filedialog
 import customtkinter as ctk
 from PIL import  ImageTk
 import qrcode
+from entry_field import EntryField
+from qrImage import QrImage
 
 
 class App(ctk.CTk):
@@ -42,48 +43,7 @@ class App(ctk.CTk):
     def save(self, event):
         if self.raw_image:
             file_path = filedialog.asksaveasfilename()
-            print(file_path)
             if file_path:
                 self.raw_image.save(file_path+".png")
-
-
-class EntryField(ctk.CTkFrame):
-    def __init__(self, parent, entry_string,save_func):
-        super().__init__(master=parent,corner_radius=20,fg_color="#17153B")
-        self.place(relx=0.5,rely=1,relwidth=1,relheight=0.4,anchor="center")
-
-        #
-        self.rowconfigure((0,1),weight = 1, uniform="a")
-        self.columnconfigure(0,weight = 1, uniform="a")
-
-        self.frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.frame.columnconfigure(0, weight = 1,uniform="b")
-        self.frame.columnconfigure(1, weight = 4,uniform="b")
-        self.frame.columnconfigure(2, weight = 2,uniform="b")
-        self.frame.columnconfigure(3, weight = 1,uniform="b")
-        self.frame.grid(row=0,column=0)
-
-        entry = ctk.CTkEntry(self.frame,
-                             textvariable=entry_string,
-                             border_color="#433D8B",
-                             fg_color="#2E236C",
-                             text_color="white")
-        entry.grid(row=0,column=1, sticky="nsew")
-
-        button = ctk.CTkButton(self.frame, text="Save",fg_color="#2E236C",hover_color="#5a52bf",command=lambda :save_func(""))
-        button.grid(row=0,column=2, sticky="nsew",padx=10)
-
-class QrImage(tk.Canvas):
-    def __init__(self,parent):
-        super().__init__(master=parent,background="#FFFFFF",bd=0,highlightthickness=0,relief="ridge")
-        self.place(relx=0.5,rely=0.4,width=400,height=400,anchor="center")
-
-    def update_image(self, image_tk):
-        self.clear()
-        self.create_image(0,0, image=image_tk,anchor="nw")
-
-    def clear(self):
-        self.delete("all")
-
 
 App()
